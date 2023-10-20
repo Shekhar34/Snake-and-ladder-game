@@ -2,9 +2,9 @@
 #include<cstdlib>
 #include<ctime>
 #include<conio.h>
+#include<unordered_map>
 
 using namespace std;
-
 
 class Game
 {
@@ -16,7 +16,10 @@ class Game
 		int no;
 		char name1[10];
 		char name2[10];
-		int lad[8],laddist[8],snake[8],snakedist[8];
+		
+		
+		unordered_map<int,int> lad;
+		unordered_map<int,int> snake;
 		
 		
 	Game()
@@ -28,10 +31,10 @@ class Game
 				mat[i][j]=0;
 			}
 		}
-		lad[0]=1,lad[1]=4,lad[2]=8,lad[3]=21,lad[4]=28,lad[5]=50,lad[6]=71,lad[7]=80;
-		laddist[0]=38,laddist[1]=14,laddist[2]=30,laddist[3]=42,laddist[4]=76,laddist[5]=67,laddist[6]=92,laddist[7]=99;
-		snake[0]=32,snake[1]=36,snake[2]=48,snake[3]=62,snake[4]=88,snake[5]=95,snake[6]=97,snake[7]=17;
-		snakedist[0]=10,snakedist[1]=6,snakedist[2]=26,snakedist[3]=18,snakedist[4]=24,snakedist[5]=56,snakedist[5]=78,snakedist[7]=60;
+		
+	    lad={{1,38},{4,14},{8,30},{21,42},{28,76},{50,67},{71,92},{80,99}};
+	    snake={{32,10},{36,6},{48,26},{62,18},{88,24},{95,56},{97,78},{60,17}};
+	    
 	}
 	
 	void insert()
@@ -79,37 +82,35 @@ class Game
 			ptr1=ptr1;
 		}
 		
-		for(int i=0;i<8;i++)
-		{
-			if(ptr1==lad[i])
-			{
-				
-				ptr1=laddist[i];
-				l=1;
-				l_i=i;
-				break;
-			}
-			else if(ptr1==snake[i])
-			{
-				
-				ptr1=snakedist[i];
-				s=1;
-				s_i=i;
-				break;
-			}
-			
+		for(auto& x:lad){
+		    if(ptr1==x.first){
+		        ptr1=x.second;
+		        l=1;
+		        l_i=x.first;
+		        break;
+		    }
+		    
+		}
+		
+		for(auto& x:snake){
+		    if(ptr1==x.first){
+		        ptr1=x.second;
+		        s=1;
+		        s_i=x.first;
+		        break;
+		    }
 		}
 		
 		if(l==1)
 		{
 			Game::show_plate();
-			cout<<"****LADDER****  "<<lad[l_i]<<"        [IIIIIIIIIIIIIIII]      "<<laddist[l_i]<<endl;
+			cout<<"****LADDER****  "<<l_i<<"        [IIIIIIIIIIIIIIII]      "<<lad[l_i]<<endl;
 			cout<<"Your at position :"<<ptr1<<endl;
 		}
 		else if(s==1)
 		{
 			Game::show_plate();
-			cout<<"****SNAKE****   "<<snake[s_i]<<"   .-'-.-'-.-'-.-'-.-(',')    "<<snakedist[s_i]<<endl;
+			cout<<"****SNAKE****   "<<s_i<<"   .-'-.-'-.-'-.-'-.-(',')    "<<snake[s_i]<<endl;
 			cout<<"Your at position :"<<ptr1<<endl;
 		}
 		else
@@ -129,7 +130,7 @@ class Game
 		
 		srand(time(0));
 		dice=rand()%6+1;
-		if(ptr1+dice<=100)
+		if(ptr2+dice<=100)
 		{
 			ptr2=ptr2+dice;
 		}
@@ -138,36 +139,35 @@ class Game
 			ptr2=ptr2;
 		}
 		
-		for(int i=0;i<8;i++)
-		{
-			if(ptr2==lad[i])
-			{
-				
-				ptr2=laddist[i];
-				l=1;
-				l_i=i;
-				break;
-			}
-			else if(ptr2==snake[i])
-			{
-				
-				ptr2=snakedist[i];
-				s=1;
-				s_i=i;
-				break;
-			}
-			
+		for(auto& x:lad){
+		    if(ptr2==x.first){
+		        ptr2=x.second;
+		        l=1;
+		        l_i=x.first;
+		        break;
+		    }
+		    
 		}
+		
+		for(auto& x:snake){
+		    if(ptr2==x.first){
+		        ptr2=x.second;
+		        s=1;
+		        s_i=x.first;
+		        break;
+		    }
+		}
+		
 		if(l==1)
 		{
 			Game::show_plate();
-			cout<<"****LADDER****  "<<lad[l_i]<<"    [IIIIIIIIIIIIIIII]    "<<laddist[l_i]<<endl;
+			cout<<"****LADDER****  "<<l_i<<"    [IIIIIIIIIIIIIIII]    "<<lad[l_i]<<endl;
 			cout<<"Your at position :"<<ptr2<<endl;
 		}
 		else if(s==1)
 		{
 			Game::show_plate();
-			cout<<"****SNAKE****   "<<snake[s_i]<<"   .-'-.-'-.-'-.-'-.-(',')    "<<snakedist[s_i]<<endl;
+			cout<<"****SNAKE****   "<<s_i<<"   .-'-.-'-.-'-.-'-.-(',')    "<<snake[s_i]<<endl;
 			cout<<"Your at position :"<<ptr2<<endl;
 		}
 		else
@@ -287,10 +287,7 @@ int main()
 			{
 				break;
 			}
-			
 		}
-		
-	
 	}
 	return 0;
 }
