@@ -3,7 +3,7 @@
 #include<ctime>
 #include<conio.h>
 #include<unordered_map>
-
+//pankay nalayak
 using namespace std;
 
 class Game
